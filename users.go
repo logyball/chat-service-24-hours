@@ -12,7 +12,15 @@ type User struct {
 }
 
 type UserDb struct {
-	Users map[uuid.UUID]User
+	UsersToChats map[uuid.UUID]map[uuid.UUID]*Chat
+	/*
+		{
+			"user uuid" -> {
+				"userTwo uuid" -> chat,
+				"userThree uuid" -> chat
+			}
+		}
+	*/
 }
 
 func CreateNewUserAddToDb(d *UserDb) User {
@@ -20,9 +28,10 @@ func CreateNewUserAddToDb(d *UserDb) User {
 	newUser := User{
 		Id: u,
 	}
+	emptyChats := make(map[uuid.UUID]*Chat)
 
-	userDatabase.Users[u] = newUser
-	log.Printf("Created a new user %v at %v", u, getTime())
+	userDatabase.UsersToChats[u] = emptyChats
+	log.Printf("Created a new user %v with no chats at %v", u, getTime())
 	log.Printf("Users: %v", userDatabase)
 	return newUser
 }
