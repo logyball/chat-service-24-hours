@@ -63,14 +63,6 @@ func findExistingOrCreateNewChat(m *Message) *Chat {
 		chat.Messages = append(chat.Messages, *m)
 		return chat
 	}
-	msgCopy := m
-	newChat := Chat{
-		UserOneId: m.From,
-		UserTwoId: m.To,
-		Messages:  []Message{*msgCopy},
-	}
-	userDatabase.UserOneToChat[m.From] = &newChat
-	userDatabase.UsersToUsers[m.From] = m.To
-	log.Printf("new Chat created")
-	return &newChat
+	newChat := userDatabase.createChat(m)
+	return newChat
 }
