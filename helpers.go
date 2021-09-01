@@ -47,7 +47,7 @@ func validateSendMessage(m *Message) error {
 	if m.To == uuid.Nil {
 		return errors.New("no \"To\" User")
 	}
-	if _, ok := userDatabase.Users[m.To]; !ok {
+	if !userDatabase.getUser(m.To) {
 		return errors.New("Chat recipient doesnt exist")
 	}
 	if m.From == uuid.Nil {
