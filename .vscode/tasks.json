@@ -8,6 +8,10 @@
             "type": "shell",
             "command": "go",
             "args": [
+                "test",
+                "-v",
+                "&&",
+                "go",
                 "build",
                 "-o",
                 "./bin/server",

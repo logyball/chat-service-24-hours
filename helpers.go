@@ -34,11 +34,14 @@ func validateSendMessage(m *Message) error {
 	if m.To == uuid.Nil {
 		return errors.New("no \"To\" User")
 	}
+	if m.From == uuid.Nil {
+		return errors.New("no \"From\" User")
+	}
 	if !userDatabase.getUser(m.To) {
 		return errors.New("Chat recipient doesnt exist")
 	}
-	if m.From == uuid.Nil {
-		return errors.New("no \"From\" User")
+	if !userDatabase.getUser(m.From) {
+		return errors.New("Chat sender doesnt exist")
 	}
 	return nil
 }
