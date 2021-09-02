@@ -1,7 +1,9 @@
 package main
 
 import (
+	"sync"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -9,43 +11,51 @@ import (
 
 func TestGetChatReturnsCorrectChat(t *testing.T) {
 	type test struct {
-		users   UserDb
-		userOne uuid.UUID
-		userTwo uuid.UUID
-		result  *Chat
+		users       *UserDb
+		chatIsEmpty bool
 	}
 
 	userIdOne := uuid.New()
 	userIdTwo := uuid.New()
 
-	chatOne := Chat{
-		UserOneId: userIdOne,
-		UserTwoId: userIdTwo,
-		Messages:  []Message{},
+	msgOne := Message{
+		Msg:       "asdf",
+		To:        userIdTwo,
+		From:      userIdOne,
+		timestamp: time.Time{},
 	}
 
 	emptyDatabase := UserDb{
-		Users:         map[uuid.UUID]bool{},
-		UsersToUsers:  map[uuid.UUID]uuid.UUID{},
-		UserOneToChat: map[uuid.UUID]*Chat{},
+		lock:                      sync.Mutex{},
+		Users:                     map[uuid.UUID]bool{},
+		UsersToUsers:              map[uuid.UUID]uuid.UUID{},
+		MapInitialFromUserToChats: map[uuid.UUID][]*Chat{},
+		MapInitialToUserToChats:   map[uuid.UUID][]*Chat{},
 	}
 
 	fullDatabase := UserDb{
-		Users: map[uuid.UUID]bool{
-			userIdOne: true,
-			userIdTwo: true,
-		},
-		UsersToUsers:  map[uuid.UUID]uuid.UUID{userIdOne: userIdTwo},
-		UserOneToChat: map[uuid.UUID]*Chat{userIdOne: &chatOne},
+		lock:                      sync.Mutex{},
+		Users:                     map[uuid.UUID]bool{},
+		UsersToUsers:              map[uuid.UUID]uuid.UUID{},
+		MapInitialFromUserToChats: map[uuid.UUID][]*Chat{},
+		MapInitialToUserToChats:   map[uuid.UUID][]*Chat{},
 	}
 
+	fullDatabase.addUser(userIdOne)
+	fullDatabase.addUser(userIdTwo)
+	fullDatabase.createChat(&msgOne)
+
 	tests := []test{
-		{users: emptyDatabase, userOne: userIdOne, userTwo: userIdTwo, result: nil},
-		{users: fullDatabase, userOne: userIdOne, userTwo: userIdTwo, result: &chatOne},
+		{users: &emptyDatabase, chatIsEmpty: true},
+		{users: &fullDatabase, chatIsEmpty: false},
 	}
 
 	for _, test := range tests {
-		got := getChatBetweenUsers(userIdOne, userIdTwo)
-		assert.Equal(t, got, test.result)
+		got := test.users.getChatBetweenUsers(userIdOne, userIdTwo)
+		if test.chatIsEmpty {
+			assert.Nil(t, got)
+		} else {
+			assert.NotNil(t, got)
+		}
 	}
 }

@@ -14,19 +14,6 @@ func getTime() time.Time {
 	return time.Now().UTC()
 }
 
-func getChatBetweenUsers(to uuid.UUID, from uuid.UUID) *Chat {
-	checkUser := userDatabase.UsersToUsers[to]
-	if checkUser != uuid.Nil {
-		return userDatabase.UserOneToChat[to]
-	}
-	checkUser = userDatabase.UsersToUsers[from]
-	if checkUser != uuid.Nil {
-		return userDatabase.UserOneToChat[from]
-	}
-	// no chat exists
-	return nil
-}
-
 func matchPathAndMethod(w http.ResponseWriter, r *http.Request, path string, method string) bool {
 	if r.URL.Path != path {
 		http.Error(w, "Bad URL", http.StatusNotFound)
@@ -57,7 +44,7 @@ func validateSendMessage(m *Message) error {
 }
 
 func findExistingOrCreateNewChat(m *Message) *Chat {
-	chat := getChatBetweenUsers(m.To, m.From)
+	chat := userDatabase.getChatBetweenUsers(m.To, m.From)
 	if chat != nil {
 		log.Printf("chat found")
 		chat.Messages = append(chat.Messages, *m)

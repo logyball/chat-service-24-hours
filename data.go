@@ -24,7 +24,7 @@ type GetChat struct {
 }
 
 type Chat struct {
-	UserOneId uuid.UUID
-	UserTwoId uuid.UUID
-	Messages  []Message
+	InitialFromUser uuid.UUID
+	InitialToUser   uuid.UUID
+	Messages        []Message
 }

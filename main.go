@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"sync"
 
 	"github.com/google/uuid"
 )
@@ -11,9 +12,11 @@ var userDatabase UserDb
 
 func init() {
 	userDatabase = UserDb{
-		Users:         make(map[uuid.UUID]bool),
-		UsersToUsers:  make(map[uuid.UUID]uuid.UUID),
-		UserOneToChat: make(map[uuid.UUID]*Chat),
+		lock:                      sync.Mutex{},
+		Users:                     make(map[uuid.UUID]bool),
+		UsersToUsers:              make(map[uuid.UUID]uuid.UUID),
+		MapInitialFromUserToChats: make(map[uuid.UUID][]*Chat),
+		MapInitialToUserToChats:   make(map[uuid.UUID][]*Chat),
 	}
 }
 

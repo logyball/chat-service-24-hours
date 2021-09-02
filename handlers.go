@@ -62,7 +62,7 @@ func handleGetChats(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	chatBetweenUsers := getChatBetweenUsers(getChatMsg.To, getChatMsg.From)
+	chatBetweenUsers := userDatabase.getChatBetweenUsers(getChatMsg.To, getChatMsg.From)
 	if chatBetweenUsers != nil {
 		for _, m := range chatBetweenUsers.Messages {
 			fmt.Printf("[%v]\n- To: %v\n- From: %v\nMessage: %v", m.timestamp, m.To, m.From, m.Msg)
