@@ -3,27 +3,25 @@ package main
 import (
 	"log"
 	"sync"
-
-	"github.com/google/uuid"
 )
 
 type UserDb struct {
 	lock        sync.Mutex
-	Users       map[uuid.UUID]bool
-	UserToChats map[uuid.UUID][]*Chat
+	curId       int32
+	Users       map[int32]bool
+	UserToChats map[int32][]*Chat
 }
 
-func (u *UserDb) getUser(usr uuid.UUID) bool {
+func (u *UserDb) getUser(usr int32) bool {
 	return u.Users[usr]
 }
 
-func (u *UserDb) addUser(usr uuid.UUID) bool {
-	if u.Users[usr] {
-		log.Printf("User %v already exists", usr)
-		return false
-	}
-	u.Users[usr] = true
-	return true
+func (u *UserDb) addUser() int32 {
+	u.lock.Lock()
+	defer u.lock.Unlock()
+	u.curId++
+	u.Users[u.curId] = true
+	return u.curId
 }
 
 func (u *UserDb) createChat(initMsg *Message) *Chat {
@@ -44,7 +42,7 @@ func (u *UserDb) createChat(initMsg *Message) *Chat {
 }
 
 // TODO - optimize... this is awful
-func (u *UserDb) getChatBetweenUsers(to uuid.UUID, from uuid.UUID) *Chat {
+func (u *UserDb) getChatBetweenUsers(to int32, from int32) *Chat {
 	var shorterChatList []*Chat
 
 	toChats := u.UserToChats[to]

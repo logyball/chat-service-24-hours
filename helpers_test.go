@@ -5,7 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,30 +14,26 @@ func TestGetChatReturnsCorrectChat(t *testing.T) {
 		chatIsEmpty bool
 	}
 
-	userIdOne := uuid.New()
-	userIdTwo := uuid.New()
-
-	msgOne := Message{
-		Msg:       "asdf",
-		To:        userIdTwo,
-		From:      userIdOne,
-		timestamp: time.Time{},
-	}
-
 	emptyDatabase := UserDb{
 		lock:        sync.Mutex{},
-		Users:       map[uuid.UUID]bool{},
-		UserToChats: map[uuid.UUID][]*Chat{},
+		Users:       map[int32]bool{},
+		UserToChats: map[int32][]*Chat{},
 	}
 
 	fullDatabase := UserDb{
 		lock:        sync.Mutex{},
-		Users:       map[uuid.UUID]bool{},
-		UserToChats: map[uuid.UUID][]*Chat{},
+		Users:       map[int32]bool{},
+		UserToChats: map[int32][]*Chat{},
 	}
 
-	fullDatabase.addUser(userIdOne)
-	fullDatabase.addUser(userIdTwo)
+	userIdOne := fullDatabase.addUser()
+	userIdTwo := fullDatabase.addUser()
+	msgOne := Message{
+		Msg:       "asdf",
+		To:        userIdOne,
+		From:      userIdTwo,
+		timestamp: time.Time{},
+	}
 	fullDatabase.createChat(&msgOne)
 
 	tests := []test{

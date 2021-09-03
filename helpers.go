@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 func getTime() time.Time {
@@ -31,10 +29,10 @@ func validateSendMessage(m *Message) error {
 	if m.Msg == "" {
 		return errors.New("no message")
 	}
-	if m.To == uuid.Nil {
+	if m.To == 0 {
 		return errors.New("no \"To\" User")
 	}
-	if m.From == uuid.Nil {
+	if m.From == 0 {
 		return errors.New("no \"From\" User")
 	}
 	if !userDatabase.getUser(m.To) {
