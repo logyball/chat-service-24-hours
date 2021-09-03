@@ -26,19 +26,15 @@ func TestGetChatReturnsCorrectChat(t *testing.T) {
 	}
 
 	emptyDatabase := UserDb{
-		lock:                      sync.Mutex{},
-		Users:                     map[uuid.UUID]bool{},
-		UsersToUsers:              map[uuid.UUID]uuid.UUID{},
-		MapInitialFromUserToChats: map[uuid.UUID][]*Chat{},
-		MapInitialToUserToChats:   map[uuid.UUID][]*Chat{},
+		lock:        sync.Mutex{},
+		Users:       map[uuid.UUID]bool{},
+		UserToChats: map[uuid.UUID][]*Chat{},
 	}
 
 	fullDatabase := UserDb{
-		lock:                      sync.Mutex{},
-		Users:                     map[uuid.UUID]bool{},
-		UsersToUsers:              map[uuid.UUID]uuid.UUID{},
-		MapInitialFromUserToChats: map[uuid.UUID][]*Chat{},
-		MapInitialToUserToChats:   map[uuid.UUID][]*Chat{},
+		lock:        sync.Mutex{},
+		Users:       map[uuid.UUID]bool{},
+		UserToChats: map[uuid.UUID][]*Chat{},
 	}
 
 	fullDatabase.addUser(userIdOne)

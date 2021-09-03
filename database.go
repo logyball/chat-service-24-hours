@@ -8,11 +8,9 @@ import (
 )
 
 type UserDb struct {
-	lock                      sync.Mutex
-	Users                     map[uuid.UUID]bool
-	UsersToUsers              map[uuid.UUID]uuid.UUID // user one -> user two, or "FROM" -> "TO"
-	MapInitialFromUserToChats map[uuid.UUID][]*Chat   // user one = from, user two = to
-	MapInitialToUserToChats   map[uuid.UUID][]*Chat
+	lock        sync.Mutex
+	Users       map[uuid.UUID]bool
+	UserToChats map[uuid.UUID][]*Chat
 }
 
 func (u *UserDb) getUser(usr uuid.UUID) bool {
@@ -36,10 +34,10 @@ func (u *UserDb) createChat(initMsg *Message) *Chat {
 		InitialToUser:   initMsg.To,
 		Messages:        []Message{*msgCopy},
 	}
-	u.MapInitialFromUserToChats[initMsg.From] = append(u.MapInitialFromUserToChats[initMsg.From], &newChat)
-	u.MapInitialToUserToChats[initMsg.To] = append(u.MapInitialToUserToChats[initMsg.To], &newChat)
-	u.UsersToUsers[initMsg.From] = initMsg.To
-	u.UsersToUsers[initMsg.To] = initMsg.From
+
+	u.UserToChats[initMsg.From] = append(u.UserToChats[initMsg.From], &newChat)
+	u.UserToChats[initMsg.To] = append(u.UserToChats[initMsg.To], &newChat)
+
 	log.Printf("new Chat created")
 	u.lock.Unlock()
 	return &newChat
@@ -47,19 +45,23 @@ func (u *UserDb) createChat(initMsg *Message) *Chat {
 
 // TODO - optimize... this is awful
 func (u *UserDb) getChatBetweenUsers(to uuid.UUID, from uuid.UUID) *Chat {
-	foundUserTo := u.UsersToUsers[from]
-	if foundUserTo != uuid.Nil {
-		for _, c := range u.MapInitialFromUserToChats[from] {
-			if (c.InitialFromUser == from && c.InitialToUser == to) || (c.InitialFromUser == to && c.InitialToUser == from) {
-				return c
-			}
-		}
-		for _, c := range u.MapInitialToUserToChats[from] {
-			if (c.InitialFromUser == from && c.InitialToUser == to) || (c.InitialFromUser == to && c.InitialToUser == from) {
-				return c
-			}
+	var shorterChatList []*Chat
+
+	toChats := u.UserToChats[to]
+	fromChats := u.UserToChats[from]
+
+	if len(toChats) > len(fromChats) {
+		shorterChatList = fromChats
+	} else {
+		shorterChatList = toChats
+	}
+
+	for _, c := range shorterChatList {
+		if (c.InitialFromUser == from && c.InitialToUser == to) || (c.InitialFromUser == to && c.InitialToUser == from) {
+			return c
 		}
 	}
+
 	// no chat exists
 	return nil
 }

@@ -12,11 +12,9 @@ var userDatabase UserDb
 
 func init() {
 	userDatabase = UserDb{
-		lock:                      sync.Mutex{},
-		Users:                     make(map[uuid.UUID]bool),
-		UsersToUsers:              make(map[uuid.UUID]uuid.UUID),
-		MapInitialFromUserToChats: make(map[uuid.UUID][]*Chat),
-		MapInitialToUserToChats:   make(map[uuid.UUID][]*Chat),
+		lock:        sync.Mutex{},
+		Users:       make(map[uuid.UUID]bool),
+		UserToChats: make(map[uuid.UUID][]*Chat),
 	}
 }
 

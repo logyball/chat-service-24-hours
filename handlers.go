@@ -63,9 +63,13 @@ func handleGetChats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	chatBetweenUsers := userDatabase.getChatBetweenUsers(getChatMsg.To, getChatMsg.From)
+	var messages []string
 	if chatBetweenUsers != nil {
 		for _, m := range chatBetweenUsers.Messages {
-			fmt.Printf("[%v]\n- To: %v\n- From: %v\nMessage: %v", m.timestamp, m.To, m.From, m.Msg)
+			messages = append(messages, fmt.Sprintf("[%v]\n- To: %v\n- From: %v\nMessage: %v", m.timestamp, m.To, m.From, m.Msg))
 		}
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(messages)
 }
