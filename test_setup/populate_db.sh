@@ -12,7 +12,7 @@ done
 printf "\n\nPopulating Chats...\n\n\n"
 
 RAND_MESSAGES=("Hello" "Whats for Dinner" "Are you there?" "ASL" "u up?" "Goodbye")
-for _ in {1..100}; do
+for _ in {1..1000}; do
     USER_1=$(($RANDOM % 10 + 1))
     USER_2=$(($RANDOM % 10 + 1))
     while [ "$USER_1" = "$USER_2" ] ; do
@@ -27,14 +27,15 @@ for _ in {1..100}; do
 
 done
 
-for _ in {1..10}; do
+for _ in {1..5}; do
     USER_1=$(($RANDOM % 10 + 1))
     USER_2=$(($RANDOM % 10 + 1))
 
-    echo "Chats between: $USER_1 and $USER_2"
+    printf "\n\nChats between: %s and %s\n\n\n" $USER_1 $USER_2
 
     curl -X GET \
         -H "content-type: Application/Json" \
         -d "{\"To\": $USER_1, \"From\": $USER_2}" \
         localhost:8080/getChats
+        
 done

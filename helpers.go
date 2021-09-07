@@ -35,11 +35,14 @@ func validateSendMessage(m *Message) error {
 	if m.From == 0 {
 		return errors.New("no \"From\" User")
 	}
+	if m.From == m.To {
+		return errors.New("cant chat with yourself")
+	}
 	if !userDatabase.getUser(m.To) {
-		return errors.New("Chat recipient doesnt exist")
+		return errors.New("chat recipient doesnt exist")
 	}
 	if !userDatabase.getUser(m.From) {
-		return errors.New("Chat sender doesnt exist")
+		return errors.New("chat sender doesnt exist")
 	}
 	return nil
 }

@@ -13,13 +13,13 @@ func handleSendMessage(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&m)
 
 	if err != nil {
-		http.Error(w, fmt.Sprintf("Required json fields missing, or smthn lol: %v", err.Error()), http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Error: %v", err.Error()), http.StatusBadRequest)
 		return
 	}
 
 	err = validateSendMessage(&m)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("Required json fields missing, or smthn lol: %v", err.Error()), http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Error: %v", err.Error()), http.StatusBadRequest)
 		return
 	}
 
