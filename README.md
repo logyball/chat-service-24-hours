@@ -27,71 +27,46 @@ This will result in a binary in `./bin/`.
 
 # Testing
 
-With server running in a separate terminal:
+(With server running in a separate terminal)
 
 Client:
 ```bash
-`$ ./test_setup/populate_db.sh 
-{"Id":1}
-{"Id":2}
-{"Id":3}
-{"Id":4}
-{"Id":5}
-{"Id":6}
-{"Id":7}
-{"Id":8}
-{"Id":9}
-{"Id":10}
-{"Id":11}
-{"Id":12}
-```
+$ ./test_setup/populate_db.sh 
+{"Id":25}
+{"Id":26}
+{"Id":27}
+{"Id":28}
+{"Id":29}
+{"Id":30}
+{"Id":31}
+{"Id":32}
+{"Id":33}
+{"Id":34}
+{"Id":35}
+{"Id":36}
 
-Server:
-```bash
-$ ./bin/server 
-2021/09/07 09:21:44 Created a new user {1} with no chats at 2021-09-07 13:21:44.139238 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true]
-2021/09/07 09:21:44 Created a new user {2} with no chats at 2021-09-07 13:21:44.148722 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true]
-2021/09/07 09:21:44 Created a new user {3} with no chats at 2021-09-07 13:21:44.160341 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true]
-2021/09/07 09:21:44 Created a new user {4} with no chats at 2021-09-07 13:21:44.171767 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true]
-2021/09/07 09:21:44 Created a new user {5} with no chats at 2021-09-07 13:21:44.183283 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true]
-2021/09/07 09:21:44 Created a new user {6} with no chats at 2021-09-07 13:21:44.19506 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true]
-2021/09/07 09:21:44 Created a new user {7} with no chats at 2021-09-07 13:21:44.206385 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true]
-2021/09/07 09:21:44 Created a new user {8} with no chats at 2021-09-07 13:21:44.217341 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true]
-2021/09/07 09:21:44 Created a new user {9} with no chats at 2021-09-07 13:21:44.229695 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true]
-2021/09/07 09:21:44 Created a new user {10} with no chats at 2021-09-07 13:21:44.240979 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true 10:true]
-2021/09/07 09:21:44 Created a new user {11} with no chats at 2021-09-07 13:21:44.252135 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true 10:true 11:true]
-2021/09/07 09:21:44 Created a new user {12} with no chats at 2021-09-07 13:21:44.263432 +0000 UTC
-2021/09/07 09:21:44 Users: map[1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true 10:true 11:true 12:true]
-2021/09/07 09:21:44 message: &{u up? 10 7 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{7 10 [{u up? 10 7 {275827000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Whats for Dinner 1 8 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{8 1 [{Whats for Dinner 1 8 {287612000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Hello 6 4 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{4 6 [{Hello 6 4 {297908000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Hello 4 1 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{1 4 [{Hello 4 1 {311052000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Whats for Dinner 4 3 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{3 4 [{Whats for Dinner 4 3 {323177000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Goodbye 4 3 {0 0 <nil>}}
-2021/09/07 09:21:44 chat found
-chat: &{3 4 [{Whats for Dinner 4 3 {323177000 63766617704 <nil>}} {Goodbye 4 3 {334729000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Hello 5 3 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{3 5 [{Hello 5 3 {347010000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{ASL 4 3 {0 0 <nil>}}
-2021/09/07 09:21:44 chat found
-chat: &{3 4 [{Whats for Dinner 4 3 {323177000 63766617704 <nil>}} {Goodbye 4 3 {334729000 63766617704 <nil>}} {ASL 4 3 {360156000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Are you there? 8 3 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{3 8 [{Are you there? 8 3 {371717000 63766617704 <nil>}}]}2021/09/07 09:21:44 message: &{Whats for Dinner 6 10 {0 0 <nil>}}
-2021/09/07 09:21:44 new Chat created
-chat: &{10 6 [{Whats for Dinner 6 10 {383148000 63766617704 <nil>}}]}
+
+Populating Chats...
+
+
+Chats between: 4 and 3
+["[2021-09-07 13:25:47.854411 +0000 UTC]\n- To: 4\n- From: 3\nMessage: Whats for Dinner","[2021-09-07 13:25:47.87887 +0000 UTC]\n- To: 4\n- From: 3\nMessage: Whats for Dinner","[2021-09-07 13:25:59.668891 +0000 UTC]\n- To: 3\n- From: 4\nMessage: Hello","[2021-09-07 13:25:59.769629 +0000 UTC]\n- To: 3\n- From: 4\nMessage: Whats for Dinner","[2021-09-07 13:26:00.016134 +0000 UTC]\n- To: 3\n- From: 4\nMessage: Whats for Dinner","[2021-09-07 13:26:00.248154 +0000 UTC]\n- To: 3\n- From: 4\nMessage: Are you there?","[2021-09-07 13:26:00.347486 +0000 UTC]\n- To: 4\n- From: 3\nMessage: Hello"]
+Chats between: 2 and 8
+["[2021-09-07 13:25:59.749417 +0000 UTC]\n- To: 8\n- From: 2\nMessage: Hello","[2021-09-07 13:25:59.905624 +0000 UTC]\n- To: 8\n- From: 2\nMessage: Goodbye","[2021-09-07 13:25:59.925875 +0000 UTC]\n- To: 8\n- From: 2\nMessage: Goodbye","[2021-09-07 13:26:00.407735 +0000 UTC]\n- To: 8\n- From: 2\nMessage: Are you there?","[2021-09-07 13:27:19.31761 +0000 UTC]\n- To: 2\n- From: 8\nMessage: ASL","[2021-09-07 13:27:19.374994 +0000 UTC]\n- To: 8\n- From: 2\nMessage: Hello","[2021-09-07 13:27:19.775485 +0000 UTC]\n- To: 2\n- From: 8\nMessage: Goodbye"]
+Chats between: 6 and 2
+["[2021-09-07 13:25:17.221713 +0000 UTC]\n- To: 2\n- From: 6\nMessage: Goodbye","[2021-09-07 13:27:19.466059 +0000 UTC]\n- To: 6\n- From: 2\nMessage: Goodbye","[2021-09-07 13:27:19.576232 +0000 UTC]\n- To: 6\n- From: 2\nMessage: ASL","[2021-09-07 13:27:19.684797 +0000 UTC]\n- To: 2\n- From: 6\nMessage: Goodbye"]
+Chats between: 4 and 9
+["[2021-09-07 13:27:19.529928 +0000 UTC]\n- To: 4\n- From: 9\nMessage: Goodbye","[2021-09-07 13:27:19.797236 +0000 UTC]\n- To: 9\n- From: 4\nMessage: u up?"]
+Chats between: 7 and 7
+null
+Chats between: 5 and 8
+["[2021-09-07 13:25:17.164226 +0000 UTC]\n- To: 8\n- From: 5\nMessage: Whats for Dinner","[2021-09-07 13:25:59.713721 +0000 UTC]\n- To: 5\n- From: 8\nMessage: u up?","[2021-09-07 13:26:00.006358 +0000 UTC]\n- To: 5\n- From: 8\nMessage: Goodbye","[2021-09-07 13:27:19.365822 +0000 UTC]\n- To: 5\n- From: 8\nMessage: ASL","[2021-09-07 13:27:19.566852 +0000 UTC]\n- To: 8\n- From: 5\nMessage: Hello","[2021-09-07 13:27:19.728916 +0000 UTC]\n- To: 8\n- From: 5\nMessage: Goodbye","[2021-09-07 13:27:19.898739 +0000 UTC]\n- To: 8\n- From: 5\nMessage: Whats for Dinner"]
+Chats between: 7 and 1
+["[2021-09-07 13:25:59.659221 +0000 UTC]\n- To: 7\n- From: 1\nMessage: Whats for Dinner","[2021-09-07 13:25:59.825241 +0000 UTC]\n- To: 7\n- From: 1\nMessage: Hello","[2021-09-07 13:27:19.484249 +0000 UTC]\n- To: 7\n- From: 1\nMessage: Whats for Dinner","[2021-09-07 13:27:19.585539 +0000 UTC]\n- To: 7\n- From: 1\nMessage: Goodbye","[2021-09-07 13:27:20.176943 +0000 UTC]\n- To: 7\n- From: 1\nMessage: Are you there?","[2021-09-07 13:27:20.186208 +0000 UTC]\n- To: 7\n- From: 1\nMessage: u up?","[2021-09-07 13:27:20.2183 +0000 UTC]\n- To: 1\n- From: 7\nMessage: u up?"]
+Chats between: 10 and 2
+["[2021-09-07 13:25:59.416809 +0000 UTC]\n- To: 2\n- From: 10\nMessage: u up?","[2021-09-07 13:25:59.995528 +0000 UTC]\n- To: 10\n- From: 2\nMessage: Whats for Dinner","[2021-09-07 13:26:00.458369 +0000 UTC]\n- To: 10\n- From: 2\nMessage: ASL","[2021-09-07 13:27:19.539182 +0000 UTC]\n- To: 2\n- From: 10\nMessage: u up?","[2021-09-07 13:27:19.629496 +0000 UTC]\n- To: 2\n- From: 10\nMessage: Goodbye","[2021-09-07 13:27:19.806295 +0000 UTC]\n- To: 2\n- From: 10\nMessage: ASL","[2021-09-07 13:27:20.134553 +0000 UTC]\n- To: 2\n- From: 10\nMessage: Goodbye"]
+Chats between: 7 and 5
+["[2021-09-07 13:25:47.865734 +0000 UTC]\n- To: 5\n- From: 7\nMessage: u up?","[2021-09-07 13:25:59.587026 +0000 UTC]\n- To: 5\n- From: 7\nMessage: Goodbye","[2021-09-07 13:27:19.327045 +0000 UTC]\n- To: 7\n- From: 5\nMessage: u up?","[2021-09-07 13:27:19.47509 +0000 UTC]\n- To: 7\n- From: 5\nMessage: Goodbye","[2021-09-07 13:27:19.618676 +0000 UTC]\n- To: 5\n- From: 7\nMessage: Goodbye","[2021-09-07 13:27:19.719236 +0000 UTC]\n- To: 7\n- From: 5\nMessage: Goodbye","[2021-09-07 13:27:20.016132 +0000 UTC]\n- To: 7\n- From: 5\nMessage: Goodbye","[2021-09-07 13:27:20.027439 +0000 UTC]\n- To: 5\n- From: 7\nMessage: Are you there?"]
+Chats between: 2 and 6
+["[2021-09-07 13:25:17.221713 +0000 UTC]\n- To: 2\n- From: 6\nMessage: Goodbye","[2021-09-07 13:27:19.466059 +0000 UTC]\n- To: 6\n- From: 2\nMessage: Goodbye","[2021-09-07 13:27:19.576232 +0000 UTC]\n- To: 6\n- From: 2\nMessage: ASL","[2021-09-07 13:27:19.684797 +0000 UTC]\n- To: 2\n- From: 6\nMessage: Goodbye"]
 ```
