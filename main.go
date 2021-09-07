@@ -11,7 +11,7 @@ var userDatabase UserDb
 func init() {
 	userDatabase = UserDb{
 		lock:        sync.Mutex{},
-		curId:       1,
+		curId:       0,
 		Users:       map[int32]bool{},
 		UserToChats: map[int32][]*Chat{},
 	}
